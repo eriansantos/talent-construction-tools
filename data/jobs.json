@@ -46,5 +46,12 @@
     "jt_job_id": "22PW2vXVvbKL",
     "cost_type": "Labor",
     "skip_existing": true
+  },
+  {
+    "jobber_quote_id": "57775463",
+    "jt_job_id": "22PW6SZsiqWp",
+    "cost_type": "Labor",
+    "cost_code": "Miscellaneous",
+    "skip_existing": true
   }
 ]

@@ -2,11 +2,27 @@
 # src/jobber_client.py — Cliente GraphQL do Jobber com OAuth auto-refresh
 # =============================================================================
 
+import re
 import requests
+from pathlib import Path
 from config import (
     JOBBER_CLIENT_ID, JOBBER_CLIENT_SECRET, JOBBER_REFRESH_TOKEN,
     JOBBER_API_URL, JOBBER_TOKEN_URL, JOBBER_API_VERSION
 )
+
+_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.py"
+
+
+def _persist_refresh_token(token: str) -> None:
+    """Persiste o refresh_token rotacionado no config.py."""
+    text = _CONFIG_PATH.read_text()
+    new_text = re.sub(
+        r'JOBBER_REFRESH_TOKEN\s*=\s*"[^"]*"',
+        f'JOBBER_REFRESH_TOKEN = "{token}"',
+        text,
+    )
+    if new_text != text:
+        _CONFIG_PATH.write_text(new_text)
 
 
 class JobberClient:
@@ -34,9 +50,10 @@ class JobberClient:
             raise RuntimeError(f"Jobber token refresh failed: {data}")
 
         self._access_token  = data["access_token"]
-        # Jobber can rotate refresh_token — save the latest one
+        # Jobber rotates the refresh_token on every use — persist the new one
         if "refresh_token" in data:
             self._refresh_token = data["refresh_token"]
+            _persist_refresh_token(self._refresh_token)
 
         print(f"  [Jobber] Access token refreshed ✓")
 
@@ -93,8 +110,8 @@ class JobberClient:
                     id
                     name
                     companyName
-                    emails { address isPrimary }
-                    phones { number isPrimary }
+                    emails { address primary }
+                    phones { number primary }
                 }
                 property {
                     id
@@ -112,8 +129,6 @@ class JobberClient:
                         taxable
                     }
                 }
-                subtotal
-                total
                 createdAt
                 updatedAt
             }
@@ -141,7 +156,6 @@ class JobberClient:
                             name description quantity unitPrice unitCost taxable
                         }
                     }
-                    total
                     createdAt
                 }
                 pageInfo {

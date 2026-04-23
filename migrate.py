@@ -43,6 +43,7 @@ def cmd_run(args):
         jobber_quote_id    = args.quote,
         jt_job_id          = args.job,
         override_cost_type = args.type,
+        override_cost_code = args.code,
         skip_existing      = not args.force,
     )
     if result.success:
@@ -111,6 +112,7 @@ def main():
     run_parser.add_argument("--quote",   required=True, help="ID do quote no Jobber")
     run_parser.add_argument("--job",     required=True, help="ID do job no JobTread")
     run_parser.add_argument("--type",    default=None,  help="Forçar costType (ex: Labor, Materials)")
+    run_parser.add_argument("--code",    default=None,  help="Forçar costCode (ex: Miscellaneous, Tiling)")
     run_parser.add_argument("--dry-run", action="store_true", help="Preview sem inserir")
     run_parser.add_argument("--force",   action="store_true", help="Inserir mesmo se já houver itens")
 

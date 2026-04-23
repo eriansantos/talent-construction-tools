@@ -89,6 +89,7 @@ class Migrator:
         jobber_quote_id: str,
         jt_job_id: str,
         override_cost_type: str = None,
+        override_cost_code: str = None,
         skip_existing: bool = True,
     ) -> MigrationResult:
         """
@@ -145,11 +146,11 @@ class Migrator:
 
             # 3. Mapear line items
             self._log(f"  [3/4] Mapeando {len(line_items)} itens...")
-            mapped_items = map_quote(quote, override_cost_type=override_cost_type)
+            mapped_items = map_quote(quote, override_cost_type=override_cost_type, override_cost_code=override_cost_code)
             result.items_total = len(mapped_items)
 
             # Preview
-            print(preview_mapping(quote, override_cost_type))
+            print(preview_mapping(quote, override_cost_type, override_cost_code))
 
             if self.dry_run:
                 self._log(f"\n  [DRY RUN] Nenhum item foi inserido.")

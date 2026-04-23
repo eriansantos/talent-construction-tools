@@ -46,7 +46,7 @@ def build_description(line_item: dict) -> str | None:
     return desc if desc else None
 
 
-def map_line_item(line_item: dict, override_cost_type: str = None) -> dict:
+def map_line_item(line_item: dict, override_cost_type: str = None, override_cost_code: str = None) -> dict:
     """
     Converte um line item do Jobber em um cost item pronto para o JobTread.
 
@@ -66,7 +66,7 @@ def map_line_item(line_item: dict, override_cost_type: str = None) -> dict:
     cost_type_id   = JT_COST_TYPES[cost_type_name]["id"]
 
     # CostCode
-    cost_code_name = detect_cost_code(name, description)
+    cost_code_name = override_cost_code or detect_cost_code(name, description)
     cost_code_id   = JT_COST_CODES.get(cost_code_name, JT_COST_CODES["Uncategorized"])
 
     # UnitCost
@@ -89,7 +89,7 @@ def map_line_item(line_item: dict, override_cost_type: str = None) -> dict:
     }
 
 
-def map_quote(quote: dict, override_cost_type: str = None) -> list:
+def map_quote(quote: dict, override_cost_type: str = None, override_cost_code: str = None) -> list:
     """
     Converte todos os line items de um quote do Jobber em cost items do JobTread.
 
@@ -99,18 +99,18 @@ def map_quote(quote: dict, override_cost_type: str = None) -> list:
     mapped = []
 
     for li in line_items:
-        item = map_line_item(li, override_cost_type=override_cost_type)
+        item = map_line_item(li, override_cost_type=override_cost_type, override_cost_code=override_cost_code)
         mapped.append(item)
 
     return mapped
 
 
-def preview_mapping(quote: dict, override_cost_type: str = None) -> str:
+def preview_mapping(quote: dict, override_cost_type: str = None, override_cost_code: str = None) -> str:
     """
     Gera um preview legível do mapeamento de um quote.
     Útil para validação antes de executar a migração.
     """
-    items = map_quote(quote, override_cost_type)
+    items = map_quote(quote, override_cost_type, override_cost_code)
     lines = [
         f"\n{'─'*70}",
         f"PREVIEW: {quote.get('title', 'N/A')} (#{quote.get('quoteNumber', 'N/A')})",

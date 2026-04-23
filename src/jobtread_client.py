@@ -34,7 +34,7 @@ class JobTreadClient:
                 "$": {"id": job_id},
                 "id": {}, "name": {},
                 "costItems": {
-                    "$": {"size": 200},
+                    "$": {"size": 100},
                     "nodes": {
                         "id": {}, "name": {}, "quantity": {},
                         "unitCost": {}, "unitPrice": {},

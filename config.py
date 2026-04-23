@@ -6,7 +6,7 @@
 # ─── JOBBER OAuth ─────────────────────────────────────────────────────────────
 JOBBER_CLIENT_ID     = "b461e924-5ad8-43b1-bcd1-3fa386cc955b"
 JOBBER_CLIENT_SECRET = "4dc6012cf1cb5700bfd0ef35b78edc4590d6457472b5ff27d06c296128c1c85b"
-JOBBER_REFRESH_TOKEN = "2e79af9c9f1a5caa5ffc1e97fe4c9472"
+JOBBER_REFRESH_TOKEN = "94138f7d83f0000d6a13bbf4f2024e3d"
 JOBBER_API_URL       = "https://api.getjobber.com/api/graphql"
 JOBBER_TOKEN_URL     = "https://api.getjobber.com/api/oauth/token"
 JOBBER_API_VERSION   = "2026-04-16"
