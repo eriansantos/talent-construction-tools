@@ -1,15 +1,15 @@
 ---
-name: Skill de melhoria contínua via git
-description: A talent-construction-quote skill deve aprender com cada orçamento, commitar os aprendizados e sincronizar entre máquinas via GitHub
+name: Skill de melhoria contínua via git — por quote
+description: A cada novo quote: git pull antes de iniciar, git commit+push após criar. Não apenas por sessão — por quote.
 type: feedback
 ---
 
-A skill `talent-construction-quote` foi projetada para melhorar continuamente a cada uso.
+A skill `talent-construction-quote` deve sincronizar com o repositório a cada quote individual, não apenas uma vez por sessão.
 
-**Why:** O usuário e outra pessoa usam a skill em máquinas diferentes com a mesma conta JobTread. Cada orçamento pode trazer novos rates confirmados, escopos novos ou correções. Esse conhecimento deve ser compartilhado automaticamente entre as máquinas.
+**Why:** Duas máquinas podem criar quotes ao mesmo tempo ou em sequência rápida. Se o pull for só no início da sessão, os aprendizados da outra máquina chegam tarde. Pull por quote garante que cada orçamento parte do conhecimento mais atual disponível.
 
 **How to apply:**
-- **FASE 0 (início de toda sessão):** sempre executar `git pull --rebase origin main` no PROJECT_DIR antes de iniciar qualquer intake
-- **FASE 4 (fim de toda sessão):** após cada quote criado, perguntar ao usuário se há observações, atualizar os arquivos relevantes (`references/pricing.md`, `memory/project_estimator_patterns.md`, `memory/project_jobtread_api.md`), e commitar + push com mensagem `"Learn: [escopo] — [cliente] ([data])"`
-- **Nunca pular a FASE 4** mesmo que o usuário não tenha correções — ao menos confirmar que não há aprendizados novos
-- O `.skill` packaged em `talent-construction-quote.skill` precisa ser regerado manualmente se o SKILL.md mudar estruturalmente
+- **Antes de cada novo quote** (mesmo que seja o segundo ou terceiro da sessão): executar `git pull --rebase origin main` no PROJECT_DIR
+- **Após cada quote criado e confirmado no JobTread**: capturar observações do usuário, atualizar arquivos de aprendizado e executar `git commit + git push`
+- Sequência por quote: `pull → intake → proposta → execução → aprendizado → push`
+- Nunca pular o pull nem o push, mesmo que não haja aprendizados novos (nesse caso, o push não ocorre, mas a pergunta deve ser feita)
