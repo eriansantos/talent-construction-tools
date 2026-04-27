@@ -1,6 +1,6 @@
 ---
 name: talent-construction-quote
-description: "Criar novo orçamento (estimate/quote) para a Talent Construction e enviar ao JobTread via API. Use este skill SEMPRE que o usuário quiser: criar orçamento, gerar proposta, montar estimate, colocar job no JobTread, push estimate to JobTread, novo cliente com orçamento, quote para cliente, precificar um serviço, calcular cost items no JobTread. Trigger phrases: 'cria um orçamento', 'novo quote', 'novo job no JobTread', 'manda pro JobTread', 'faz um estimate', 'precisa de proposta', 'novo cliente', 'envia pro sistema'."
+description: "Criar novo orçamento (estimate/quote) para a Talent Construction e enviar ao JobTread via API. Use este skill SEMPRE que o usuário quiser: criar orçamento, gerar proposta, montar estimate, colocar job no JobTread, push estimate to JobTread, novo cliente com orçamento, quote para cliente, precificar um serviço, calcular cost items no JobTread. Trigger phrases: 'cria um orçamento', 'crie um orçamento', 'criar orçamento', 'novo quote', 'quote', 'criar quote', 'create quote', 'estimate', 'criar estimate', 'fazer estimate', 'faz um estimate', 'proposta', 'criar proposta', 'precisa de proposta', 'novo job no JobTread', 'manda pro JobTread', 'novo cliente', 'envia pro sistema'."
 ---
 
 # Talent Construction — Quote Creator
