@@ -137,7 +137,44 @@ while True:
 - **Account:** listar todos accounts e filtrar por name (943 accounts na org)
 - **Location:** `account.locations` após criar
 - **Contact:** `account.contacts` após criar
-- **Job:** listar todos jobs, pegar o de número mais alto (número = sequencial)
+- **Job:** listar todos jobs, pegar o mais recente por `createdAt` (ou número mais alto)
+
+## ⚠️ Como LER customFieldValues — formato CORRETO
+
+A query `"customFieldValues": {}` (selection vazia) **sempre retorna `{}`, mesmo quando há valores salvos**. Isso é trap silenciosa — não dá erro, só mente. Para realmente ler os valores precisa pedir nodes com sub-selection:
+
+```python
+# ✅ CORRETO — retorna os valores
+"customFieldValues": {
+    "$": {"size": 50},
+    "nodes": {
+        "customField": {"id": {}, "name": {}},
+        "value": {},
+    }
+}
+
+# ❌ ERRADO — retorna {} mesmo quando há valores
+"customFieldValues": {}
+
+# ❌ ERRADO — campo não existe
+"customFieldValues": {"22PVu6hu5CCg": {}}
+```
+
+Nota: `customFieldValues` é uma **lista de nodes**, cada um com `customField` (referência) e `value` (string). Para escrever (em createJob/updateAccount/etc) ainda usa o formato dict `{field_id: value}` — só a leitura que muda.
+
+## Como PUXAR quote do Jobber pelo número
+
+`quoteNumber` no filtro é `IntRangeInput`, não int direto:
+
+```python
+# ✅ CORRETO
+quotes(first: 1, filter: {quoteNumber: {min: 1478, max: 1478}}) { nodes {...} }
+
+# ❌ ERRADO — "Argument 'quoteNumber' has an invalid value (1478). Expected type 'IntRangeInput'"
+quotes(first: 1, filter: {quoteNumber: 1478}) { nodes {...} }
+```
+
+Campo de subtotal é `amounts.subtotal` (não `subtotalPrice`).
 
 ## Estrutura de costItems (position field)
 
