@@ -4,7 +4,7 @@ description: Como ler um quote existente no Jobber pelo quoteNumber e recriá-lo
 type: project
 ---
 
-Fluxo descoberto e validado em 2026-04-30 com Erian (quotes 1478 Mount Vernon e 1476 A Sharper Edge).
+Fluxo descoberto e validado em 2026-04-30 e expandido em 2026-05-01 com Erian (10 quotes migrados: 1478, 1476, 1461, 1458, 1355, 1354, 1353, 1351, 1349, 1334 — total $1,214,240.20).
 
 **Why:** Antes do Jobber ser desligado, Erian quer migrar quotes individuais sob demanda — não migração em massa. Pedir o número do quote e a skill puxa, mostra preview e cria no JobTread.
 **How to apply:** Quando o usuário pedir "pega o quote XXXX do Jobber e traz pro JobTread", seguir esse fluxo em vez do intake conversacional padrão.
@@ -94,6 +94,23 @@ Mapping aplicado nos quotes 1478 e 1476 (ajustar conforme necessário):
 | Mirrors / blinds / shelves / permits | Labor | Miscellaneous |
 | Dumpster | Subcontractor | Miscellaneous |
 
-## 7. Verificação obrigatória
+## 7. Padrões aprendidos em sessões reais
+
+### Endereço incompleto no Jobber
+Quando a property tem só "Lorraine Road, Lakewood Ranch, FL" (sem número/zip), usar opção C: criar location com nome descritivo ("Harbor 58 — Lorraine Road, Lakewood Ranch") e endereço parcial. Avisar Erian para completar manualmente depois.
+
+### Múltiplos quotes no mesmo projeto/building
+Quando vários quotes são do mesmo building (ex: Harbor 58 — ADA, Residence, Staff, Lodge), **reusar a mesma location** para todos os jobs. Diferenciar pelos campos `description` do job (ex: "Harbor 58 — Typical ADA" vs "Harbor 58 — Lodge").
+
+### Quote "converted" no Jobber → status no JobTread
+Mesmo quando `quoteStatus: "converted"` no Jobber (quote já aceito/virou job), usar **"Awaiting Response"** no JobTread por padrão, a menos que Erian peça diferente. Erian gerencia o status manualmente.
+
+### Itens de exclusão ($0)
+Itens de exclusão/nota (ex: "A/C removal NOT included", qty=1, price=$0) devem ser incluídos **100% fiéis ao Jobber** como cost items com $0. Não omitir. Erian pediu "incluir 100%".
+
+### Clientes com múltiplas LLCs
+Erian às vezes usa nomes de LLC diferentes para o mesmo cliente. Ex: "A Strong Tower Construction LLC" (Jobber) = "Strong Tower Ventures LLC" (JobTread). Quando Erian confirma "é a mesma empresa", usar o account existente e atualizar o contato com os dados mais completos do Jobber.
+
+## 8. Verificação obrigatória
 
 Após criar tudo, somar `quantity × unitPrice` de todos os cost items e comparar com `amounts.subtotal` do Jobber. Delta deve ser **$0.00**. Mostrar a comparação ao Erian — ele pediu isso explicitamente em 2026-04-30.
